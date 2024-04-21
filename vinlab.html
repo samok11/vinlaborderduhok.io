@@ -39,6 +39,25 @@
       background-color: #c82333; /* Darker red on hover */
     }
 
+    .text-box {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 10px; /* Decreased margin */
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      align-items: center; /* Center vertically */
+      justify-content: center; /* Center horizontally */
+    }
+
+    .text {
+      font-size: 18px;
+      color: #333;
+      text-align: center; /* Center text */
+    }
+
     .background-text {
       text-align: right;
       font-family: "Arial Black", Arial, sans-serif;
@@ -60,6 +79,10 @@
   <button id="shareButton">ڤێرێ کلیک بکە</button> <!-- Button with text "ڤێرێ کلیک بکە" -->
 </div>
 
+<div class="text-box">
+  <p class="text">دوکما سور داگرە بو هنارتنا جهێ تو لێ بو تیما تاقیگەها ڤین</p>
+</div>
+
 <div class="background-text">Created by S1.work</div> <!-- Text displayed at the top right -->
 
 <script>
@@ -78,8 +101,8 @@
         // WhatsApp message with location links
         const message = `Here's my current location: \n\nGoogle Maps: ${googleMapUrl}\nApple Maps: ${appleMapUrl}`;
 
-        // WhatsApp link (for iOS)
-        const whatsappLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`; // WhatsApp link with encoded message
+        const encodedMessage = encodeURIComponent(message); // Encode message for URL
+        const whatsappLink = `https://api.whatsapp.com/send?text=${encodedMessage}`; // WhatsApp link with encoded message
 
         window.open(whatsappLink, '_blank');
       });
