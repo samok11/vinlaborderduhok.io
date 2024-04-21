@@ -56,36 +56,30 @@
 <body>
 
 <div class="container">
-  <button id="shareButton">ڤێرێ داگرە</button> <!-- Changed text on the button -->
+  <button id="shareButton">Share Location</button>
 </div>
 
 <div class="background-text">Created by S1.work</div>
 
 <script>
 function openWhatsApp() {
-    if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
-        // For iOS devices, use Apple Maps to share location
-        navigator.geolocation.getCurrentPosition(position => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            const message = `https://maps.apple.com/?q=${latitude},${longitude}`;
-            const phoneNumber = "+9647501954455"; // WhatsApp phone number
-            const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-            window.location.href = whatsappLink;
-        });
+    const phoneNumber = "+9647501954455"; // WhatsApp phone number
+    const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+
+    if (isIOS) {
+        // For iOS devices, open WhatsApp chat directly
+        const whatsappLink = `https://api.whatsapp.com/send?phone=${phoneNumber}`;
+        window.location.href = whatsappLink;
     } else if ("geolocation" in navigator) {
-        // For other devices (including Android), use Google Maps to share location
+        // For other devices (including Android), get the current location and open Google Maps
         navigator.geolocation.getCurrentPosition(position => {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
-            const googleMapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
-            const message = `Here's my current location:\nGoogle Maps: ${googleMapUrl}`;
-            const encodedMessage = encodeURIComponent(message);
-            const phoneNumber = "+9647501954455"; // WhatsApp phone number
-            const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-            window.location.href = whatsappLink;
+            const googleMapUrl = `https://www.google.com/maps/place/${latitude},${longitude}`;
+            window.location.href = googleMapUrl;
         });
     } else {
+        // If geolocation is not supported by the browser
         alert("Geolocation is not supported by your browser.");
     }
 }
