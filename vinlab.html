@@ -75,25 +75,17 @@
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         
-        // Google Maps link
         const googleMapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
-        
-        // Apple Maps link (for iOS)
-        const appleMapUrl = `http://maps.apple.com/?q=${latitude},${longitude}`;
-        
-        // WhatsApp phone number
         const phoneNumber = "+9647501954455";
         
-        let message;
+        let message = `Here's my current location:\n${googleMapUrl}`;
         
+        // For iOS devices, open WhatsApp directly
         if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
-          // For iOS devices
-          message = "Here's my current location:\n" + appleMapUrl;
           window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
         } else {
-          // For non-iOS devices
-          message = "Here's my current location:\n" + googleMapUrl;
-          window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+          // For other devices, use WhatsApp Web
+          window.open(`https://web.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`, '_blank');
         }
       });
     } else {
