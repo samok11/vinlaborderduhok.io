@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Share Current Location via WhatsApp</title>
+  <title>Share Location</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -56,20 +56,19 @@
 <body>
 
 <div class="container">
-  <button id="shareButton">Share Current Location via WhatsApp</button>
+  <button id="shareButton">Share Location</button>
 </div>
 
 <div class="background-text">Created by S1.work</div>
 
 <script>
-  function shareCurrentLocation() {
+  function openAppleMaps() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        const message = encodeURIComponent(`Please share your live location: https://www.google.com/maps/place/${latitude},${longitude}`);
-        const whatsappLink = `https://wa.me/?text=${message}`;
-        window.location.href = whatsappLink;
+        const appleMapsUrl = `http://maps.apple.com/?ll=${latitude},${longitude}`;
+        window.location.href = appleMapsUrl;
       }, error => {
         alert("Error getting your location. Please try again later.");
         console.error(error);
@@ -79,7 +78,7 @@
     }
   }
 
-  document.getElementById("shareButton").addEventListener("click", shareCurrentLocation);
+  document.getElementById("shareButton").addEventListener("click", openAppleMaps);
 </script>
 
 </body>
