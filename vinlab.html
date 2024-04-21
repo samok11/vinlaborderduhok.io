@@ -78,8 +78,9 @@
         // WhatsApp message with location links
         const message = `Here's my current location: \n\nGoogle Maps: ${googleMapUrl}\nApple Maps: ${appleMapUrl}`;
 
-        const encodedMessage = encodeURIComponent(message); // Encode message for URL
-        const whatsappLink = `https://wa.me/?text=${encodedMessage}`; // WhatsApp link with encoded message
+        // WhatsApp link (for iOS)
+        const whatsappLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`; // WhatsApp link with encoded message
+
         window.open(whatsappLink, '_blank');
       });
     } else {
