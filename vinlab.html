@@ -104,12 +104,22 @@
         // Apple Maps link (for iOS)
         const appleMapUrl = `http://maps.apple.com/?q=${latitude},${longitude}`;
         
-        // WhatsApp message with location links
-        const message = `Here's my current location: \n\nGoogle Maps: ${googleMapUrl}\nApple Maps: ${appleMapUrl}`;
+        const phoneNumber = "+9647501954455"; // WhatsApp phone number to share location
+        let message;
+        
+        if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
+          // For iOS devices
+          message = `Here's my current location: \n\nApple Maps: ${appleMapUrl}`;
+        } else {
+          // For non-iOS devices
+          message = `Here's my current location: \n\nGoogle Maps: ${googleMapUrl}`;
+        }
 
         const encodedMessage = encodeURIComponent(message); // Encode message for URL
-        const whatsappLink = `https://wa.me/?text=${encodedMessage}`; // WhatsApp link with encoded message
-        window.open(whatsappLink, '_blank');
+        const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`; // WhatsApp link with phone number and message
+        
+        // Open WhatsApp link in the same tab/window
+        window.location.href = whatsappLink;
       });
     } else {
       alert("Geolocation is not supported by your browser."); // Alert if geolocation is not supported
