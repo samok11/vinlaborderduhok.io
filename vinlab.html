@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Share WhatsApp Live Location</title>
+  <title>Share Current Location via WhatsApp</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -56,20 +56,30 @@
 <body>
 
 <div class="container">
-  <button id="shareButton">Share WhatsApp Live Location</button>
+  <button id="shareButton">Share Current Location via WhatsApp</button>
 </div>
 
 <div class="background-text">Created by S1.work</div>
 
 <script>
-  function shareWhatsAppLiveLocation() {
-    const message = "https://wa.me/livelocation";
-    const phoneNumber = "+9647501954455"; // Change this to the desired WhatsApp phone number
-    const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.location.href = whatsappLink;
+  function shareCurrentLocation() {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const message = encodeURIComponent(`Please share your live location: https://www.google.com/maps/place/${latitude},${longitude}`);
+        const whatsappLink = `https://wa.me/?text=${message}`;
+        window.location.href = whatsappLink;
+      }, error => {
+        alert("Error getting your location. Please try again later.");
+        console.error(error);
+      });
+    } else {
+      alert("Geolocation is not supported by your browser.");
+    }
   }
 
-  document.getElementById("shareButton").addEventListener("click", shareWhatsAppLiveLocation);
+  document.getElementById("shareButton").addEventListener("click", shareCurrentLocation);
 </script>
 
 </body>
