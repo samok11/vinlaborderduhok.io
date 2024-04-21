@@ -20,12 +20,6 @@
 
     .container {
       text-align: center;
-      z-index: 1;
-      flex-grow: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
       margin-top: 20vh;
     }
 
@@ -43,25 +37,6 @@
 
     button:hover {
       background-color: #c82333; /* Darker red on hover */
-    }
-
-    .text-box {
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 10px; /* Decreased margin */
-      max-width: 80%;
-      margin-left: auto;
-      margin-right: auto;
-      display: flex;
-      align-items: center; /* Center vertically */
-      justify-content: center; /* Center horizontally */
-    }
-
-    .text {
-      font-size: 18px;
-      color: #333;
-      text-align: center; /* Center text */
     }
 
     .background-text {
@@ -85,10 +60,6 @@
   <button id="shareButton">ڤێرێ کلیک بکە</button> <!-- Button with text "ڤێرێ کلیک بکە" -->
 </div>
 
-<div class="text-box">
-  <p class="text">دوکما سور داگرە بو هنارتنا جهێ تو لێ بو تیما تاقیگەها ڤین</p>
-</div>
-
 <div class="background-text">Created by S1.work</div> <!-- Text displayed at the top right -->
 
 <script>
@@ -97,16 +68,18 @@
       navigator.geolocation.getCurrentPosition(position => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        const googleMapUrl = `https://www.google.com/maps/place/${latitude},${longitude}`; // URL to Google Maps with current location
-        const appleMapUrl = `http://maps.apple.com/?q=${latitude},${longitude}`; // URL to Apple Maps with current location
-
-        const phoneNumber = "+9647501954455"; // WhatsApp phone number to share location
-        const message = `Here's my current location: \n\nGoogle Maps: ${googleMapUrl}\nApple Maps: ${appleMapUrl}`; // Message containing the location URLs
+        
+        // Google Maps link
+        const googleMapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+        
+        // Apple Maps link (for iOS)
+        const appleMapUrl = `http://maps.apple.com/?q=${latitude},${longitude}`;
+        
+        // WhatsApp message with location links
+        const message = `Here's my current location: \n\nGoogle Maps: ${googleMapUrl}\nApple Maps: ${appleMapUrl}`;
 
         const encodedMessage = encodeURIComponent(message); // Encode message for URL
-        const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`; // WhatsApp link with phone number and message
-
-        // Direct user to WhatsApp
+        const whatsappLink = `https://wa.me/?text=${encodedMessage}`; // WhatsApp link with encoded message
         window.open(whatsappLink, '_blank');
       });
     } else {
