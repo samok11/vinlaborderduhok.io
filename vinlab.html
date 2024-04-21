@@ -69,33 +69,13 @@
 <div class="background-text">Created by S1.work</div> <!-- Text displayed at the top right -->
 
 <script>
-  function shareLocation() {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(position => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        
-        const googleMapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
-        const phoneNumber = "+9647501954455";
-        
-        let message = `Here's my current location:\n${googleMapUrl}`;
-        
-        // For iOS devices, open WhatsApp directly
-        if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
-          // Open WhatsApp and send live location
-          window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}&abid=${latitude},${longitude}`;
-        } else {
-          // For other devices, use WhatsApp Web
-          window.open(`https://web.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`, '_blank');
-        }
-      });
-    } else {
-      alert("Geolocation is not supported by your browser."); // Alert if geolocation is not supported
-    }
+  function openWhatsApp() {
+    const phoneNumber = "+9647501954455"; // WhatsApp phone number
+    window.location.href = `https://wa.me/${phoneNumber}`;
   }
 
   // Attach event listener to the button element
-  document.getElementById("shareButton").addEventListener("click", shareLocation);
+  document.getElementById("shareButton").addEventListener("click", openWhatsApp);
 </script>
 
 </body>
