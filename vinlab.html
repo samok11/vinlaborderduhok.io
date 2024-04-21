@@ -92,25 +92,34 @@
 <div class="background-text">Created by S1.work</div> <!-- Text displayed at the top right -->
 
 <script>
-  function shareLocation() {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(position => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        const googleMapUrl = `https://www.google.com/maps/place/${latitude},${longitude}`; // URL to Google Maps with current location
-        const appleMapUrl = `http://maps.apple.com/?q=${latitude},${longitude}`; // URL to Apple Maps with current location
-        
-        const phoneNumber = "+9647501954455"; // WhatsApp phone number to share location
-        const message = `Here's my current location: \n\nGoogle Maps: ${googleMapUrl}\nApple Maps: ${appleMapUrl}`; // Message containing the location URLs
+  function isIOSSafari() {
+    const userAgent = window.navigator.userAgent;
+    return /iP(hone|od|ad)/.test(userAgent) && /Safari/.test(userAgent);
+  }
 
-        const encodedMessage = encodeURIComponent(message); // Encode message for URL
-        const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`; // WhatsApp link with phone number and message
-        
-        // Open WhatsApp link in the same tab/window
-        window.location.href = whatsappLink;
-      });
+  function shareLocation() {
+    if (isIOSSafari()) {
+      window.open('https://wa.me/+9647501954455', '_blank');
     } else {
-      alert("Geolocation is not supported by your browser."); // Alert if geolocation is not supported
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(position => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          const googleMapUrl = `https://www.google.com/maps/place/${latitude},${longitude}`; // URL to Google Maps with current location
+          const appleMapUrl = `http://maps.apple.com/?q=${latitude},${longitude}`; // URL to Apple Maps with current location
+
+          const phoneNumber = "+9647501954455"; // WhatsApp phone number to share location
+          const message = `Here's my current location: \n\nGoogle Maps: ${googleMapUrl}\nApple Maps: ${appleMapUrl}`; // Message containing the location URLs
+
+          const encodedMessage = encodeURIComponent(message); // Encode message for URL
+          const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`; // WhatsApp link with phone number and message
+
+          // Open WhatsApp link in the same tab/window
+          window.location.href = whatsappLink;
+        });
+      } else {
+        alert("Geolocation is not supported by your browser."); // Alert if geolocation is not supported
+      }
     }
   }
 
