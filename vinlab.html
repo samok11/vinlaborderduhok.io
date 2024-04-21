@@ -20,6 +20,12 @@
 
     .container {
       text-align: center;
+      z-index: 1;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
       margin-top: 20vh;
     }
 
@@ -91,19 +97,16 @@
       navigator.geolocation.getCurrentPosition(position => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        
-        // Google Maps link
-        const googleMapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
-        
-        // Apple Maps link (for iOS)
-        const appleMapUrl = `http://maps.apple.com/?q=${latitude},${longitude}`;
-        
-        // WhatsApp message with location links
-        const message = `Here's my current location: \n\nGoogle Maps: ${googleMapUrl}\nApple Maps: ${appleMapUrl}`;
+        const googleMapUrl = `https://www.google.com/maps/place/${latitude},${longitude}`; // URL to Google Maps with current location
+        const appleMapUrl = `http://maps.apple.com/?q=${latitude},${longitude}`; // URL to Apple Maps with current location
+
+        const phoneNumber = "+9647501954455"; // WhatsApp phone number to share location
+        const message = `Here's my current location: \n\nGoogle Maps: ${googleMapUrl}\nApple Maps: ${appleMapUrl}`; // Message containing the location URLs
 
         const encodedMessage = encodeURIComponent(message); // Encode message for URL
-        const whatsappLink = `https://api.whatsapp.com/send?text=${encodedMessage}`; // WhatsApp link with encoded message
+        const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`; // WhatsApp link with phone number and message
 
+        // Direct user to WhatsApp
         window.open(whatsappLink, '_blank');
       });
     } else {
