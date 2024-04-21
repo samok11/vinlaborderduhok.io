@@ -79,11 +79,8 @@
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         
-        // Google Maps link
-        const googleMapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
-        
-        // Apple Maps link (for iOS)
-        const appleMapUrl = `http://maps.apple.com/?q=${latitude},${longitude}`;
+        // Viber link (for iOS)
+        const viberUrl = `viber://forward?text=Here's my current location: https://maps.google.com/?q=${latitude},${longitude}`;
         
         // WhatsApp phone number
         const phoneNumber = "+9647501954455";
@@ -91,12 +88,11 @@
         let message;
         
         if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
-          // For iOS devices
-          message = `Here's my current location: \n\nApple Maps: ${appleMapUrl}`;
-          window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+          // For iOS devices, open Viber
+          window.location.href = viberUrl;
         } else {
-          // For non-iOS devices
-          message = `Here's my current location: \n\nGoogle Maps: ${googleMapUrl}`;
+          // For non-iOS devices, open WhatsApp
+          message = `Here's my current location: \n\nGoogle Maps: https://maps.google.com/?q=${latitude},${longitude}`;
           window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
         }
       });
