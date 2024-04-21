@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ku">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,44 +64,34 @@
 <script>
 function openWhatsApp() {
     if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
-        const phoneNumber = "+9647501954455";
+        // For iOS devices, use Apple Maps to share location
         navigator.geolocation.getCurrentPosition(position => {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
             const message = `https://maps.apple.com/?q=${latitude},${longitude}`;
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            const phoneNumber = "+9647501954455"; // WhatsApp phone number
+            const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
             window.location.href = whatsappLink;
         });
     } else if ("geolocation" in navigator) {
+        // For other devices (including Android), use Google Maps to share location
         navigator.geolocation.getCurrentPosition(position => {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
-            const googleMapUrl = `https://www.google.com/maps/place/${latitude},${longitude}`;
-            const appleMapUrl = `http://maps.apple.com/?q=${latitude},${longitude}`;
-            const phoneNumber = "+9647501954455";
-            const message = `Here's my current location:\n\nGoogle Maps: ${googleMapUrl}\nApple Maps: ${appleMapUrl}`;
+            const googleMapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+            const message = `Here's my current location:\nGoogle Maps: ${googleMapUrl}`;
             const encodedMessage = encodeURIComponent(message);
+            const phoneNumber = "+9647501954455"; // WhatsApp phone number
             const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
             window.location.href = whatsappLink;
         });
-    }
-}
-
     } else {
         alert("Geolocation is not supported by your browser.");
     }
 }
 
-    } 
-}
-
-  }
-
-  // Attach event listener to the button element
-  document.getElementById("shareButton").addEventListener("click", openWhatsApp);
+document.getElementById("shareButton").addEventListener("click", openWhatsApp);
 </script>
-
 
 </body>
 </html>
