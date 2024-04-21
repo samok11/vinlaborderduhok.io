@@ -70,8 +70,16 @@
 
 <script>
   function openWhatsApp() {
-    const phoneNumber = "+9647501954455"; // WhatsApp phone number
-    window.location.href = `https://wa.me/${phoneNumber}`;
+    if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
+      // For iOS devices, send WhatsApp map
+      const phoneNumber = "+9647501954455"; // WhatsApp phone number
+      const message = "https://maps.apple.com/?q=latitude,longitude"; // Apple Maps link
+      window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    } else {
+      // For other devices (including Android), send Google Maps link
+      const googleMapUrl = "https://www.google.com/maps?q=latitude,longitude"; // Google Maps link
+      window.location.href = googleMapUrl;
+    }
   }
 
   // Attach event listener to the button element
