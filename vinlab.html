@@ -79,9 +79,9 @@
       const message = `https://maps.apple.com/?q=${latitude},${longitude}`; // Apple Maps link
       window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     } else {
-      // For other devices (including Android), send Google Maps link
-      const googleMapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`; // Google Maps link
-      window.location.href = googleMapUrl;
+      // For other devices (including Android), send a message with Google Maps link
+      const message = `https://www.google.com/maps?q=${latitude},${longitude}`; // Google Maps link
+      alert("Open Google Maps and paste this link to view the location: " + message);
     }
   }
 
