@@ -66,11 +66,12 @@ function openWhatsApp() {
     const phoneNumber = "+9647501954455"; // WhatsApp phone number
     const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
 
-    if (isIOS) {
-        // For iOS devices, open WhatsApp chat directly
-        const whatsappLink = `https://api.whatsapp.com/send?phone=${phoneNumber}`;
-        window.location.href = whatsappLink;
-    } else if ("geolocation" in navigator) {
+    if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
+      // For iOS devices, send WhatsApp map
+      const phoneNumber = "+9647501954455"; // WhatsApp phone number
+      const message = "https://maps.apple.com/?q=latitude,longitude"; // Apple Maps link
+      window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    } else ("geolocation" in navigator) {
         // For other devices (including Android), get the current location and open Google Maps
         navigator.geolocation.getCurrentPosition(position => {
             const latitude = position.coords.latitude;
