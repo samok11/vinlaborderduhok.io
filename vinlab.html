@@ -70,12 +70,16 @@
 
 <script>
   function openWhatsApp() {
-    if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
-      // For iOS devices, send WhatsApp map
-      const phoneNumber = "+9647501954455"; // WhatsApp phone number
-const message = `https://maps.apple.com/?q=${latitude},${longitude}`;
-
-      window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    if (navigator.geolocation) {
+      // If geolocation is supported, get the current position
+      navigator.geolocation.getCurrentPosition(position => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const message = `https://maps.apple.com/?ll=${latitude},${longitude}`;
+        const phoneNumber = "+9647501954455";
+        const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        window.location.href = whatsappLink;
+      });
     } else if ("geolocation" in navigator) { // Added missing condition here
       navigator.geolocation.getCurrentPosition(position => {
         const latitude = position.coords.latitude;
