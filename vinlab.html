@@ -106,19 +106,8 @@
         const encodedMessage = encodeURIComponent(message); // Encode message for URL
         const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`; // WhatsApp link with phone number and message
         
-        // Create a temporary anchor element
-        const anchor = document.createElement('a');
-        anchor.href = whatsappLink;
-        anchor.target = '_blank'; // Open link in a new tab/window (optional)
-
-        // Append the anchor element to the document body
-        document.body.appendChild(anchor);
-
-        // Programmatically click the anchor element
-        anchor.click();
-
-        // Remove the anchor element from the document body
-        document.body.removeChild(anchor);
+        // Open WhatsApp link in the same tab/window
+        window.location.href = whatsappLink;
       });
     } else {
       alert("Geolocation is not supported by your browser."); // Alert if geolocation is not supported
