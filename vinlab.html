@@ -65,7 +65,7 @@
   function openWhatsApp() {
     if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
       const phoneNumber = "+9647501954455";
-      const message = "https://maps.apple.com/?q=latitude,longitude";
+      const message = `https://maps.apple.com/?q=${latitude},${longitude}`;
       window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     } else if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
