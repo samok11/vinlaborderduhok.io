@@ -64,22 +64,16 @@
 <script>
   function openWhatsApp() {
     if ("geolocation" in navigator) {
-      navigator.permissions.query({ name: 'geolocation' }).then((result) => {
-        if (result.state === 'granted' || result.state === 'prompt') {
-          navigator.geolocation.getCurrentPosition(position => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            const message = `https://maps.apple.com/?ll=${latitude},${longitude}`;
-            const phoneNumber = "+9647501954455";
-            const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-            window.location.href = whatsappLink;
-          }, error => {
-            alert("Error getting your location. Please try again later.");
-            console.error(error);
-          });
-        } else {
-          alert("Location access is denied. Please allow location access to use this feature.");
-        }
+      navigator.geolocation.getCurrentPosition(position => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const message = `Live Location: https://www.google.com/maps/place/${latitude},${longitude}`;
+        const phoneNumber = "+9647501954455";
+        const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        window.location.href = whatsappLink;
+      }, error => {
+        alert("Error getting your location. Please try again later.");
+        console.error(error);
       });
     } else {
       alert("Geolocation is not supported by your browser.");
