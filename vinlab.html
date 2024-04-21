@@ -63,27 +63,37 @@
 
 <script>
 function openWhatsApp() {
-    if (navigator.geolocation) {
+    if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
+        const phoneNumber = "+9647501954455";
         navigator.geolocation.getCurrentPosition(position => {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
-            const phoneNumber = "+9647501954455";
             const message = `https://maps.apple.com/?q=${latitude},${longitude}`;
-            const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
             window.location.href = whatsappLink;
-        }, error => {
-            alert("Error getting your location. Please try again later.");
-            console.error(error);
         });
+    } else if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(position => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const googleMapUrl = `https://www.google.com/maps/place/${latitude},${longitude}`;
+            const appleMapUrl = `http://maps.apple.com/?q=${latitude},${longitude}`;
+            const phoneNumber = "+9647501954455";
+            const message = `Here's my current location:\n\nGoogle Maps: ${googleMapUrl}\nApple Maps: ${appleMapUrl}`;
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            window.location.href = whatsappLink;
+        });
+    }
+}
+
     } else {
         alert("Geolocation is not supported by your browser.");
     }
 }
 
-    } else {
-        // If geolocation is not supported by the browser
-        alert("Geolocation is not supported by your browser.");
-    }
+    } 
 }
 
   }
