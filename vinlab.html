@@ -64,18 +64,17 @@
 <script>
   function openWhatsApp() {
     if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
-      const phoneNumber = "+9647501954455";
-      const message = "https://maps.apple.com/?q=latitude,longitude";
-      window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+      const message = "https://maps.apple.com/?ll=";
+      window.location.href = `https://wa.me/?text=${encodeURIComponent(message)}`;
     } else if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         const googleMapUrl = `https://www.google.com/maps/place/${latitude},${longitude}`;
-        const appleMapUrl = `http://maps.apple.com/?q=${latitude},${longitude}`;
-        const phoneNumber = "+9647501954455";
+        const appleMapUrl = `http://maps.apple.com/?ll=${latitude},${longitude}`;
         const message = `Here's my current location:\n\nGoogle Maps: ${googleMapUrl}\nApple Maps: ${appleMapUrl}`;
         const encodedMessage = encodeURIComponent(message);
+        const phoneNumber = "+9647501954455";
         const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
         window.location.href = whatsappLink;
       });
