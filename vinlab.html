@@ -70,24 +70,15 @@
 
 <script>
   function openWhatsApp() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        const latitude = position.coords.latitude.toFixed(6);
-        const longitude = position.coords.longitude.toFixed(6);
-
-        if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
-          // For iOS devices, send Apple Maps link
-          const phoneNumber = "+9647501954455"; // WhatsApp phone number
-          const message = `https://maps.apple.com/?q=${latitude},${longitude}`; // Apple Maps link
-          window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-        } else {
-          // For other devices (including Android), send a message with Google Maps link
-          const message = `https://www.google.com/maps?q=${latitude},${longitude}`; // Google Maps link
-          alert("Open Google Maps and paste this link to view the location: " + message);
-        }
-      });
+    if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
+      // For iOS devices, send WhatsApp map
+      const phoneNumber = "+9647501954455"; // WhatsApp phone number
+      const message = "https://maps.apple.com/?q=latitude,longitude"; // Apple Maps link
+      window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     } else {
-      alert("Geolocation is not supported by this browser.");
+      // For other devices (including Android), send Google Maps link
+      const googleMapUrl = "https://www.google.com/maps?q=latitude,longitude"; // Google Maps link
+      window.location.href = googleMapUrl;
     }
   }
 
