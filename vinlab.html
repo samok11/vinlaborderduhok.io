@@ -82,7 +82,8 @@
         
         // For iOS devices, open WhatsApp directly
         if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
-          window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+          // Open WhatsApp and send live location
+          window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}&abid=${latitude},${longitude}`;
         } else {
           // For other devices, use WhatsApp Web
           window.open(`https://web.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`, '_blank');
