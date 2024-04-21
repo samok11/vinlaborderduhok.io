@@ -45,25 +45,6 @@
       background-color: #c82333; /* Darker red on hover */
     }
 
-    .text-box {
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 10px; /* Decreased margin */
-      max-width: 80%;
-      margin-left: auto;
-      margin-right: auto;
-      display: flex;
-      align-items: center; /* Center vertically */
-      justify-content: center; /* Center horizontally */
-    }
-
-    .text {
-      font-size: 18px;
-      color: #333;
-      text-align: center; /* Center text */
-    }
-
     .background-text {
       text-align: right;
       font-family: "Arial Black", Arial, sans-serif;
@@ -112,7 +93,7 @@
         if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
           // For iOS devices
           message = `Here's my current location: \n\nApple Maps: ${appleMapUrl}`;
-          window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_self');
+          window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
         } else {
           // For non-iOS devices
           message = `Here's my current location: \n\nGoogle Maps: ${googleMapUrl}`;
