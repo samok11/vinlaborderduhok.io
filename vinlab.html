@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ku">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Share Location</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-image: url('https://scontent.fosm2-2.fna.fbcdn.net/v/t39.30808-6/309351417_420527900193834_1077914941015342233_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=m6IltclTHqEAb5GS7Uo&_nc_ht=scontent.fosm2-2.fna&oh=00_AfD8Wg-nMCn1Pb53ER5LYJcy6EZ8USsEZ59E7pveZGZo6Q&oe=662A855B'); /* Set background image */
+      background-size: cover; /* Cover the entire background */
+      background-position: center; /* Center the background image */
+      position: relative;
+    }
+
+    .container {
+      text-align: center;
+      z-index: 1;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin-top: 20vh;
+    }
+
+    button {
+      padding: 30px 50px; /* Increase padding for larger button */
+      font-size: 24px; /* Increase font size */
+      border: none; /* Remove border */
+      background-color: #28a745; /* Green button color */
+      color: white; /* Text color */
+      border-radius: 10px; /* Round corners */
+      cursor: pointer;
+      transition: background-color 0.3s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    button:hover {
+      background-color: #218838; /* Darker green on hover */
+    }
+
+    .text-box {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 10px; /* Decreased margin */
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      align-items: center; /* Center vertically */
+      justify-content: center; /* Center horizontally */
+    }
+
+    .text {
+      font-size: 18px;
+      color: #333;
+      text-align: center; /* Center text */
+    }
+
+    .background-text {
+      text-align: right;
+      font-family: "Arial Black", Arial, sans-serif;
+      font-size: 18px; /* Increased font size */
+      color: rgba(255, 255, 255, 0.8);
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 10px 20px; /* Increased padding */
+      border-radius: 5px;
+      margin-bottom: 10px; /* Decreased margin */
+      position: fixed;
+      top: 10px; /* Adjusted position */
+      right: 10px; /* Adjusted position */
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <button id="shareButton">ڤێرێ کلیک بکە</button> <!-- Button with text "ڤێرێ کلیک بکە" -->
+</div>
+
+<div class="text-box">
+  <p class="text">دوکما کەسک داگرە بو ڤرێکرنا جهێ تو لێ بو تیما تاقیگەها ڤین</p>
+</div>
+
+<div class="background-text">Created by Homan</div> <!-- Text displayed at the top right -->
+
+<script>
+  function shareLocation() {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const googleMapUrl = `https://www.google.com/maps/place/${latitude},${longitude}`; // URL to Google Maps with current location
+        const appleMapUrl = `http://maps.apple.com/?q=${latitude},${longitude}`; // URL to Apple Maps with current location
+        
+        const phoneNumber = "+9647501954455"; // WhatsApp phone number to share location
+        const message = `Here's my current location: \n\nGoogle Maps: ${googleMapUrl}\nApple Maps: ${appleMapUrl}`; // Message containing the location URLs
+
+        const encodedMessage = encodeURIComponent(message); // Encode message for URL
+        const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`; // WhatsApp link with phone number and message
+        
+        // Open WhatsApp link in the same tab/window
+        window.location.href = whatsappLink;
+      });
+    } else {
+      alert("Geolocation is not supported by your browser."); // Alert if geolocation is not supported
+    }
+  }
+
+  // Attach event listener to the button element
+  document.getElementById("shareButton").addEventListener("click", shareLocation);
+</script>
+
+</body>
+</html>
