@@ -63,16 +63,22 @@
 
 <script>
 function openWhatsApp() {
-    if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
-        // For iOS devices, send WhatsApp map
-        const phoneNumber = "+9647501954455"; // WhatsApp phone number
-        navigator.geolocation.getCurrentPosition(position => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            const message = `https://maps.apple.com/?q=${latitude},${longitude}`; // Apple Maps link
-            const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-            window.location.href = whatsappLink;
-        });
+    if (  ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const googleMapUrl = `https://www.google.com/maps/place/${latitude},${longitude}`; // URL to Google Maps with current location
+        const appleMapUrl = `http://maps.apple.com/?q=${latitude},${longitude}`; // URL to Apple Maps with current location
+        
+        const phoneNumber = "+9647501954455"; // WhatsApp phone number to share location
+        const message = `Here's my current location: \n\nGoogle Maps: ${googleMapUrl}\nApple Maps: ${appleMapUrl}`; // Message containing the location URLs
+
+        const encodedMessage = encodeURIComponent(message); // Encode message for URL
+        const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`; // WhatsApp link with phone number and message
+        
+        // Open WhatsApp link in the same tab/window
+        window.location.href = whatsappLink;
+      });
     } else if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(position => {
             const latitude = position.coords.latitude;
