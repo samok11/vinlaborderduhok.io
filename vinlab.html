@@ -75,12 +75,23 @@
       const phoneNumber = "+9647501954455"; // WhatsApp phone number
       const message = "https://maps.apple.com/?q=latitude,longitude"; // Apple Maps link
       window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    }else {
-      // For other devices (including Android), send Google Maps link
-      const googleMapUrl = "https://www.google.com/maps?q=latitude,longitude"; // Google Maps link
-      window.location.href = googleMapUrl;
-    }
+    } else if ("geolocation" in navigator) { // Added missing condition here
+      navigator.geolocation.getCurrentPosition(position => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const googleMapUrl = `https://www.google.com/maps/place/${latitude},${longitude}`; // URL to Google Maps with current location
+        const appleMapUrl = `http://maps.apple.com/?q=${latitude},${longitude}`; // URL to Apple Maps with current location
+        
+        const phoneNumber = "+9647501954455"; // WhatsApp phone number to share location
+        const message = `Here's my current location: \n\nGoogle Maps: ${googleMapUrl}\nApple Maps: ${appleMapUrl}`; // Message containing the location URLs
 
+        const encodedMessage = encodeURIComponent(message); // Encode message for URL
+        const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`; // WhatsApp link with phone number and message
+        
+        // Open WhatsApp link in the same tab/window
+        window.location.href = whatsappLink;
+      });
+    }
   }
 
   // Attach event listener to the button element
