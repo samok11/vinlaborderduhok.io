@@ -33,7 +33,7 @@
       padding: 30px 50px; /* Increase padding for larger button */
       font-size: 24px; /* Increase font size */
       border: none; /* Remove border */
-      background-color: #28a745; /* Green button color */
+      background-color: #dc3545; /* Red button color */
       color: white; /* Text color */
       border-radius: 10px; /* Round corners */
       cursor: pointer;
@@ -42,7 +42,7 @@
     }
 
     button:hover {
-      background-color: #218838; /* Darker green on hover */
+      background-color: #c82333; /* Darker red on hover */
     }
 
     .text-box {
@@ -86,7 +86,7 @@
 </div>
 
 <div class="text-box">
-  <p class="text">دوکما کەسک داگرە بو ڤرێکرنا جهێ تو لێ بو تیما تاقیگەها ڤین</p>
+  <p class="text">دوکما سور داگرە بو ڤرێکرنا جهێ تو لێ بو تیما تاقیگەها ڤین</p>
 </div>
 
 <div class="background-text">Created by Homan</div> <!-- Text displayed at the top right -->
@@ -106,11 +106,8 @@
         const encodedMessage = encodeURIComponent(message); // Encode message for URL
         const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`; // WhatsApp link with phone number and message
 
-        // Create an anchor element
-        const anchor = document.createElement("a");
-        anchor.href = whatsappLink;
-        anchor.target = "_blank"; // Open in a new tab/window
-        anchor.click(); // Simulate click event on the anchor element
+        // Open WhatsApp link in a new tab/window
+        window.open(whatsappLink, "_blank");
       });
     } else {
       alert("Geolocation is not supported by your browser."); // Alert if geolocation is not supported
