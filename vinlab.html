@@ -74,7 +74,7 @@
       }, error => {
         alert("Error getting your location. Please try again later.");
         console.error(error);
-      });
+      }, { enableHighAccuracy: true }); // Enable high accuracy mode
     } else {
       alert("Geolocation is not supported by your browser.");
     }
