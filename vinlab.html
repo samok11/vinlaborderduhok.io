@@ -66,16 +66,47 @@
   <button id="shareButton">ڤێرێ کلیک بکە</button> <!-- Button with text "ڤێرێ کلیک بکە" -->
 </div>
 
+<div class="text-box">
+  <p class="text">دوکما سور داگرە بو هنارتنا جهێ تو لێ بو تیما تاقیگەها ڤین</p>
+</div>
+
 <div class="background-text">Created by S1.work</div> <!-- Text displayed at the top right -->
 
 <script>
-  function openWhatsApp() {
-    const phoneNumber = "+9647501954455"; // WhatsApp phone number
-    window.location.href = `https://wa.me/${phoneNumber}`;
+  function shareLocation() {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        
+        // Google Maps link
+        const googleMapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+        
+        // Apple Maps link (for iOS)
+        const appleMapUrl = `http://maps.apple.com/?q=${latitude},${longitude}`;
+        
+        // WhatsApp phone number
+        const phoneNumber = "+9647501954455";
+        
+        let message;
+        
+        if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
+          // For iOS devices
+          message = `Here's my current location: \n\nApple Maps: ${appleMapUrl}`;
+          window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        } else {
+          // For non-iOS devices
+          message = `Here's my current location: \n\nGoogle Maps: ${googleMapUrl}`;
+          window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+      });
+    } else {
+      alert("Geolocation is not supported by your browser."); // Alert if geolocation is not supported
+    }
   }
 
   // Attach event listener to the button element
-  document.getElementById("shareButton").addEventListener("click", openWhatsApp);
+  document.getElementById("shareButton").addEventListener("click", shareLocation);
 </script>
 
 </body>
