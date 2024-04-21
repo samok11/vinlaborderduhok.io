@@ -71,8 +71,13 @@
         const phoneNumber = "+9647501954455"; // WhatsApp phone number to share location
         const message = `Here's my current location:\nLatitude: ${latitude}\nLongitude: ${longitude}`; // Message containing the location coordinates
         const encodedMessage = encodeURIComponent(message); // Encode message for URL
-        const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`; // WhatsApp link with phone number and message
-        window.open(whatsappLink, '_blank');
+        const whatsappLink = `https://wa.me/?text=${encodedMessage}`; // WhatsApp link with encoded message
+        
+        // Create a link element
+        const link = document.createElement('a');
+        link.href = whatsappLink;
+        link.target = '_blank';
+        link.click(); // Simulate a click on the link
       });
     } else {
       alert("Geolocation is not supported by your browser."); // Alert if geolocation is not supported
