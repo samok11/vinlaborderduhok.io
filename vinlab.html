@@ -88,12 +88,12 @@
         
         if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
           // For iOS devices
-          message = `Here's my current location on Apple Maps: ${appleMapUrl}`;
-          window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+          message = `Here's my current location: \n\nApple Maps: ${appleMapUrl}`;
+          window.location.href = `viber://forward?text=${encodeURIComponent(message)}`;
         } else {
           // For non-iOS devices
-          message = `Here's my current location on Google Maps: ${googleMapUrl}`;
-          window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+          message = `Here's my current location: \n\nGoogle Maps: ${googleMapUrl}`;
+          window.open(`viber://forward?text=${encodeURIComponent(message)}`, '_blank');
         }
       });
     } else {
