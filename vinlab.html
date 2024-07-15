@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ku">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,9 +10,10 @@
       margin: 0;
       padding: 0;
       display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      background-image: url('https://scontent.fosm2-2.fna.fbcdn.net/v/t39.30808-6/309351417_420527900193834_1077914941015342233_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=m6IltclTHqEAb5GS7Uo&_nc_ht=scontent.fosm2-2.fna&oh=00_AfD8Wg-nMCn1Pb53ER5LYJcy6EZ8USsEZ59E7pveZGZo6Q&oe=662A855B');
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url('https://scontent.fosm2-2.fna.fbcdn.net/v/t39.30808-6/309351417_420527900193834_1077914941015342233_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=B1oIOdxeQTUQ7kNvgECNdHF&_nc_ht=scontent.fosm2-2.fna&oh=00_AYBMD6Df9euSztOoStb2HjFWZpQuLt-UAaLi_4N41i54Fg&oe=669A94DB');
       background-size: cover;
       background-position: center;
       position: relative;
@@ -20,72 +21,103 @@
 
     .container {
       text-align: center;
-      margin-top: 20vh;
+      z-index: 1;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 30px;
+      border-radius: 10px;
     }
 
     button {
-      padding: 20px 40px;
-      font-size: 24px;
-      border: none;
-      background-color: #dc3545;
-      color: white;
+      padding: 20px 50px;
+      font-size: 22px;
+      border: 2px solid #fff;
+      background-color: #ff0000;
+      color: #fff;
       border-radius: 10px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, transform 0.3s;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     button:hover {
-      background-color: #c82333;
+      background-color: #cc0000;
+      transform: scale(1.05);
     }
 
     .background-text {
-      text-align: right;
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
       font-family: "Arial Black", Arial, sans-serif;
-      font-size: 18px;
+      font-size: 14px;
       color: rgba(255, 255, 255, 0.8);
       background-color: rgba(0, 0, 0, 0.5);
-      padding: 10px 20px;
+      padding: 5px 10px;
       border-radius: 5px;
-      position: fixed;
-      top: 10px;
-      right: 10px;
+      z-index: 2;
+    }
+
+    .status {
+      margin-top: 20px;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      color: #fff;
     }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <button id="shareButton">Share Location</button>
+  <button onclick="shareLocation()">ڤێرێ کلیک بکە</button>
+  <div id="status" class="status"></div>
 </div>
 
-<div class="background-text">Created by S1.work</div>
+<div class="background-text">Created by S1.Work</div>
 
 <script>
-function openWhatsApp() {
-    const phoneNumber = "+9647501954455"; // WhatsApp phone number
-    const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+  function shareLocation() {
+    const statusDiv = document.getElementById("status");
 
-    if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
-      // For iOS devices, send WhatsApp map
-      const phoneNumber = "+9647501954455"; // WhatsApp phone number
-      const message = "https://maps.apple.com/?q=latitude,longitude"; // Apple Maps link
-      window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    } else ("geolocation" in navigator) {
-        // For other devices (including Android), get the current location and open Google Maps
-        navigator.geolocation.getCurrentPosition(position => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            const googleMapUrl = `https://www.google.com/maps/place/${latitude},${longitude}`;
-            window.location.href = googleMapUrl;
-        });
+    if ("geolocation" in navigator) {
+      statusDiv.textContent = "Requesting location...";
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          const zoom = 15; // Zoom level for the map
+          let mapUrl;
+
+          // Detect platform
+          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+          if (isIOS) {
+            mapUrl = `http://maps.apple.com/?q=${latitude},${longitude}&z=${zoom}`;
+          } else {
+            mapUrl = `https://maps.google.com/?q=${latitude},${longitude}&z=${zoom}`;
+          }
+
+          const phoneNumber = "+9647502157222"; // New WhatsApp phone number
+          const message = `Here's my current location: ${mapUrl}`;
+          const encodedMessage = encodeURIComponent(message);
+          const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+          console.log("Latitude:", latitude);
+          console.log("Longitude:", longitude);
+          console.log("Map URL:", mapUrl);
+          console.log("WhatsApp Link:", whatsappLink);
+
+          window.open(whatsappLink, "_blank");
+          statusDiv.textContent = "Location shared!";
+        },
+        error => {
+          statusDiv.textContent = "Unable to retrieve location.";
+          console.error("Geolocation error:", error);
+        }
+      );
     } else {
-        // If geolocation is not supported by the browser
-        alert("Geolocation is not supported by your browser.");
+      statusDiv.textContent = "Geolocation is not supported by your browser.";
+      console.error("Geolocation is not supported by your browser.");
     }
-}
-
-document.getElementById("shareButton").addEventListener("click", openWhatsApp);
+  }
 </script>
 
 </body>
